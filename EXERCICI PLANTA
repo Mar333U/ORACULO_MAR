@@ -1,3 +1,6 @@
+
+//PER CONNECTAR ELS SENSORS //
+
 int valBoton;
 
 void setup() {
@@ -13,4 +16,28 @@ valBoton=digitalRead(2);
 Serial.println(valBoton);
 digitalWrite (13,valBoton);
 delay (250);
+}
+
+
+//PER CONNECTAR ELS LEDS //
+
+void setup() {
+  // put your setup code here, to run once:
+Serial.begin (9600);
+pinMode (12, OUTPUT);
+pinMode (13, OUTPUT);
+pinMode (2, OUTPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+digitalWrite (12, HIGH);
+digitalWrite (13, HIGH);
+digitalWrite (2, HIGH);
+delay (500);
+digitalWrite (12, LOW);
+digitalWrite (13, LOW);
+digitalWrite (2, LOW);
+delay (500);
 }
