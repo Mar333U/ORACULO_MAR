@@ -1,45 +1,56 @@
 //UNA PLANTA ESTARÀ CONNECTADA EN UN SENSOR QUE ESTARÀ CONNECTAT AL ARDUINO. TAMBÉ HI HAN 3 LEDS R, G, B CONNECTATS QUE ESTARAN REBENT INFORMACIÓ DE LA PLANTA.
 QUAN VULGUEM TRANSMETRE-LI UN MISSATGE A LA PLANTA DE QUIN COLOR VEIEM A UNA PERSONA, LI COMUNICAREM TELEPÀTICAMENT A TRAVÉS DELS SENSORS. ABANS ESCRIUREM EL COLOR EN UN
 PAPER PER COMPROVAR QUE ÉS EL MATEIX COLOR QUE S'ENCÉN DEL LED//
+ULTIMA MODIFICACIÓ PROVES - 18 OCTUBRE
 
-//PER CONNECTAR ELS SENSORS //
+//PER CONNECTAR EL SENSOR //
 
-int valBoton;
+// capacitive sensing includes
+#include <CapacitiveSensor.h>
 
-void setup() {
-  // put your setup code here, to run once:
-Serial.begin(9600);
-pinMode (2, INPUT);
-pinMode (13, OUTPUT);
-}
+// capacitive sensing constant
+CapacitiveSensor sensor = CapacitiveSensor(4, 2);  // 1M resistor between pins 4 & 2, pin 2 is sensor pin
 
-void loop() {
-  // put your main code here, to run repeatedly:
-valBoton=digitalRead(2);
-Serial.println(valBoton);
-digitalWrite (13,valBoton);
-delay (250);
-}
 
 //PER CONNECTAR ELS LEDS //
 
+const int red = 12;
+const int green = 13;
+const int blue = 8;
+
 void setup() {
-  // put your setup code here, to run once:
-Serial.begin (9600);
-pinMode (12, OUTPUT);
-pinMode (13, OUTPUT);
-pinMode (2, OUTPUT);
+  Serial.begin(115200);
+  pinMode(red, OUTPUT);
+  pinMode(green, OUTPUT);
+  pinMode(blue, OUTPUT);
+
+  pinMode (2,INPUT);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  long measurement = sensor.capacitiveSensor(30);
+  Serial.println(measurement);
+  delay(10);
 
-digitalWrite (12, HIGH);
-digitalWrite (13, HIGH);
-digitalWrite (2, HIGH);
-delay (500);
-digitalWrite (12, LOW);
-digitalWrite (13, LOW);
-digitalWrite (2, LOW);
-delay (500);
+  if (measurement > 100 && measurement <= 600) {
+    digitalWrite(red, LOW);
+    digitalWrite(green, LOW);
+    digitalWrite(blue, HIGH);
+  
+  } else if (measurement > 600 && measurement <= 10000) {
+    digitalWrite(red, LOW);
+    digitalWrite(green, HIGH);
+    digitalWrite(blue, LOW);
+    
+  } else if (measurement > 10000) {
+    digitalWrite(red, HIGH);
+    digitalWrite(green, LOW);
+    digitalWrite(blue, LOW);
+
+  } else {
+    digitalWrite(red, LOW);
+    digitalWrite(green, LOW);
+    digitalWrite(blue, LOW);
+  }
+  
 }
