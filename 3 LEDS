@@ -1,0 +1,26 @@
+const int ledgreen=13;
+const int ledBLUE=11;
+const int ledRED=8;
+
+void setup() {
+Serial.begin (9600);
+pinMode (OUTPUT,ledgreen);
+pinMode (OUTPUT,ledBLUE);
+pinMode (OUTPUT,ledRED);
+}
+
+void loop() {
+digitalWrite (ledgreen, HIGH);
+delay (100);
+digitalWrite (ledgreen, LOW);
+delay (100);
+digitalWrite (ledBLUE, HIGH);
+delay (100);
+digitalWrite (ledBLUE, LOW);
+delay (100);
+digitalWrite (ledRED, HIGH);
+delay (100);
+digitalWrite (ledRED, LOW);
+delay (100);
+
+}
