@@ -1,0 +1,37 @@
+//////////AUQEST ORACLE ENS PERMETRÀ FER-LI PREGUNTES DE LES QUALS LES RESPOSTES SIGUIN SÍ O NO. QUAN ELS NÚMEROS SÓN POSITIUS, LA RESPOSTA SERÀ SÍ, QUAN SERAN NEGATIUS, LA RESPOSTA SERÀ NO////////////////////////////
+
+
+int numRandom;
+const int led1 = 5;
+const int led2 = 2;
+const int led3 = 3;
+String lamevaPregunta = "Tindré sort?";  
+String sbona = "T'anirà genial!";
+String sdolenta = "Malament, ho sento.";
+String s3 = "Res és segur.";
+
+void setup() {
+  Serial.begin(9600);
+  if (Serial) {
+    Serial.println("Hola humana, com estàs? Fes-me una pregunta");
+  }
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    lamevaPregunta = Serial.readStringUntil('\n');  // aquestes son les possibilitats '\n', \t', '\r'
+    Serial.print("La teva pregunta és:");           //l'ordre en que anirà parlant
+    Serial.println(lamevaPregunta);
+    delay(1000);
+    //Tirem una dada
+    numRandom = random(0, 2);
+    if (numRandom == 0) {
+      Serial.println(sbona);
+    }
+    if (numRandom == 1) {
+      Serial.println(sdolenta);
+
+      delay(500);
+    }
+  }
+}
